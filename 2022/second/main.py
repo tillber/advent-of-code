@@ -1,33 +1,35 @@
 from enum import Enum
+from typing import List
 
 game = open("game.txt", "r").read()
 
 
 class Play(Enum):
+    # (name, alias), score, loses to other play.
     ROCK = ("A", "X"), 1, "B"
     PAPER = ("B", "Y"), 2, "C"
     SCISSORS = ("C", "Z"), 3, "A"
 
     @property
-    def letters(self):
+    def letters(self) -> List[str]:
         return self.value[0]
 
     @property
-    def score(self):
+    def score(self) -> int:
         return self.value[1]
 
     @property
-    def loses_to(self):
+    def loses_to(self) -> str:
         return self.value[2]
 
-    def make_play(self, play: Enum):
+    def make_play(self, play: Enum) -> int:
         if self.loses_to in play.letters:
             return self.score
         elif play == self:
             return self.score + 3
         return self.score + 6
 
-    def get_play_by_strategy(self, strategy: str):
+    def get_counter_play(self, strategy: str) -> Enum:
         if strategy == "Y":
             return self
         if strategy == "X":
@@ -60,7 +62,8 @@ def main():
     for play in plays:
         (opponent, strategy) = play.split(" ")
         opponent_play = Play.by_letter(opponent)
-        score += opponent_play.get_play_by_strategy(strategy).make_play(opponent_play)
+        score += opponent_play.get_counter_play(
+            strategy).make_play(opponent_play)
 
     print(f"Total score according to updated strategy guide: {score}")
 
