@@ -5,7 +5,7 @@ game = open("game.txt", "r").read()
 
 
 class Play(Enum):
-    # (name, alias), score, loses to other play.
+    # (name, alias), score, loses to.
     ROCK = ("A", "X"), 1, "B"
     PAPER = ("B", "Y"), 2, "C"
     SCISSORS = ("C", "Z"), 3, "A"
@@ -30,13 +30,14 @@ class Play(Enum):
         return self.score + 6
 
     def get_counter_play(self, strategy: str) -> Enum:
-        if strategy == "Y":
+        if strategy == "Y":  # draw
             return self
-        if strategy == "X":
+        if strategy == "X":  # lose
             return self.wins_against()
-        return self.by_letter(self.loses_to)
+        return self.by_letter(self.loses_to)  # win
 
     def wins_against(self) -> Enum:
+        # Returns the Play that the self play loses to.
         for play in Play:
             if play.loses_to in self.letters:
                 return play
