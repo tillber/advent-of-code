@@ -48,12 +48,16 @@ def parse_crates(stacking):
         # delete every fourth element (space delimiters) in list (starting from third element).
         item_arr = list(item)
         del item_arr[3::4]
+
+        # remove unnecessary packaging
         item = "".join(item_arr).replace(
             "[", "").replace("]", "").replace("   ", " ")
 
         for k in range(0, len(item), 1):
             crate = item[k]
-            if i == 0:  # append list although stack may not contain a crate
+            if i == 0:
+                # append list empty list
+                # (although stack may not contain a crate at that level)
                 crate = [] if crate.isspace() else [crate]
                 crates.append(crate)
             elif not crate.isspace():
