@@ -45,7 +45,8 @@ def parse_crates(stacking):
     crates = []
 
     for i, item in enumerate(stacking):
-        # delete every fourth element (space delimiters) in list (starting from third element).
+        # delete every fourth element (space delimiters)
+        # in list (starting from third element).
         item_arr = list(item)
         del item_arr[3::4]
 
