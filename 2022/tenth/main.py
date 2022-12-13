@@ -12,6 +12,9 @@ def main():
 
     sum_signal_strength = 0
 
+    crt_row = ["."] * 40
+
+    pos = cycle
     for _, line in enumerate(program_lines):
         required_cycles = 0
 
@@ -25,13 +28,26 @@ def main():
             required_cycles += 2  # x register addition takes 2 cycles
 
         taken_cycles = 0
+
         while taken_cycles < required_cycles:
-            taken_cycles += 1
+            if pos in [x_register - 1, x_register, x_register + 1]:  # sprite range
+                crt_row[pos] = "#"
+            else:
+                crt_row[pos] = "."
+
             cycle += 1
+
+            pos += 1
+            if pos >= len(crt_row):
+                pos = 0
 
             if cycle in record_cycles:
                 signal_strength = cycle * x_register
                 sum_signal_strength += signal_strength
+
+                print("".join(crt_row))
+
+            taken_cycles += 1
 
         if add_instr:
             x_register += int(term)
