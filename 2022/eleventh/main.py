@@ -3,18 +3,6 @@ import re
 decisions = open("decisions.txt", "r").read()
 
 
-# class Monkey:
-#     def __init__(text):
-#         self.__size = size
-#         self.__name = name
-
-#     def size(self):
-#         return self.__size
-
-#     def name(self):
-#         return self.__name
-
-
 def main():
     monkey_items = []
     monkeys_touch = []
@@ -41,14 +29,10 @@ def main():
         for m, monkey in enumerate(monkeys):
             lines = monkey.split("\n")
 
-            print(monkey_items[m])
-
             monkey_index: int = None
             match = re.match(r"Monkey (\d):", lines[0])
             if match:
                 monkey_index = int(match.group(1))
-
-            print(f"Monkey {monkey_index}:")
 
             operation: str = None
             worry_factor = None
@@ -80,9 +64,6 @@ def main():
                 monkeys_touch[monkey_index] += 1
                 worry_level = item
 
-                print(
-                    f"Monkey inspects an item with a worry level of {worry_level}")
-
                 if operation == "+":
                     if worry_factor == "old":
                         worry_level += worry_level
@@ -94,22 +75,12 @@ def main():
                     else:
                         worry_level *= int(worry_factor)
 
-                worry_level //= 3  # relief
-                print(
-                    f"Monkey gets bored with item. Worry level is divided by 3 to {worry_level}.")
+                # worry_level //= 3  # relief
 
                 if worry_level % denominator == 0:  # is divisible by denominator
-                    print(
-                        f"Current worry level is divisible by {denominator}.")
                     monkey_items[true_monkey_index].append(worry_level)
-                    print(
-                        f"Item with worry level {worry_level} is thrown to monkey {true_monkey_index}.")
                 else:
-                    print(
-                        f"Current worry level is not divisible by {denominator}.")
                     monkey_items[false_monkey_index].append(worry_level)
-                    print(
-                        f"Item with worry level {worry_level} is thrown to monkey {false_monkey_index}.")
 
                 thrown_items.append(item_index)
 
@@ -117,7 +88,6 @@ def main():
             for i in thrown_items:
                 monkey_items[monkey_index].pop(i)
 
-    print(monkey_items)
     monkeys_touch.sort(reverse=True)
 
     monkey_business = monkeys_touch[0] * monkeys_touch[1]
