@@ -78,7 +78,7 @@ def main():
     dist = find_shortest_path(grid, start, goal)
     print(f"Shortest path distance from S to E: {dist} steps")
 
-    start_nodes = find_all_pos(grid, "a")
+    start_nodes = find_pos(grid, "a")
     dists = list(map(lambda x: find_shortest_path(grid, x, goal), start_nodes))
     print(
         f"Shortest path distance from any starting position ('a') to E: {min(dists)} steps"
@@ -86,20 +86,17 @@ def main():
 
 
 def find_pos(grid, char):
-    for y, row in enumerate(grid):
-        try:
-            return y, row.index(char)
-        except ValueError:
-            pass
-
-
-def find_all_pos(grid, char):
     nodes = []
+
     for y, row in enumerate(grid):
         try:
             nodes.append((y, row.index(char)))
         except ValueError:
             pass
+
+    if len(nodes) == 1:
+        return nodes[0]
+
     return nodes
 
 
