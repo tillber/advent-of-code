@@ -80,7 +80,7 @@ def main():
 
     start_nodes = find_pos(grid, "a")
     dists = list(map(lambda start_node: find_shortest_path(
-        grid, start_node, goal), start_nodes))´
+        grid, start_node, goal), start_nodes))
 
     print(
         f"Shortest path distance from any starting position ('a') to E: {min(dists)} steps"
