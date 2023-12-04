@@ -1,3 +1,7 @@
+from functools import reduce
+from operator import mul
+
+
 games_input = open("games.txt", "r").read()
 games = games_input.split("\n")
 
@@ -5,6 +9,7 @@ cube_input = {"red": 12, "green": 13, "blue": 14}
 print(f"cube input: {cube_input}")
 
 possible_games = set()
+possible_games_color_maps = {}
 
 for game in games:
     game_parts = game.split(":")
@@ -28,12 +33,26 @@ for game in games:
         # find max amount of cubes
         color_map[color] = max(amount, color_map.get(color, 0))
 
-    for color in color_map.keys():
-        print(f"{color}: input; {cube_input[color]}, found; {color_map[color]}")
+    possible_games_color_maps[id] = list(color_map.values())
 
-        if cube_input[color] < color_map[color] and id in possible_games:
-            possible_games.remove(id)
+    # for color in color_map.keys():
+    #     print(f"{color}: input; {cube_input[color]}, found; {color_map[color]}")
+
+    #     if cube_input[color] < color_map[color] and id in possible_games:
+    #         possible_games.remove(id)
+
+    print(color_map)
 
     print(f"is possible: {id in possible_games}")
 
-print(sum(possible_games))
+print(
+    sum(
+        [
+            reduce(lambda x, y: x * y, entry[1])
+            for entry in possible_games_color_maps.items()
+            if entry[0] in possible_games
+        ]
+    )
+)
+
+# print(sum(possible_games))
